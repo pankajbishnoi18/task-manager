@@ -1,0 +1,1 @@
+a simple api built with FastAPI, this project allows user to create,delete,get tasks on demand and user can also get priority wise tasks,get a task by its id or can get all the task at once 
