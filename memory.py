@@ -9,14 +9,18 @@ def data_converter(task,task_id):
     }
     return converted_data
 def  add_any_task(task,task_id):
+    
     data=show_all_tasks()
+    for i in data:
+        if list((i).keys())[0]==str(task_id):
+            return {"failed":f"this task id {task_id} already exists , use a different one"}
     
     new_data=data_converter(task,task_id)
     data.append(new_data)
 
     try:
      with open("fake_db.json","w")as file:
-        json.dump(data,file)
+        json.dump(data,file,indent=4)
     except:
         return "here is"
     return {"success":f"task with task id {task_id} is added "}
@@ -32,7 +36,7 @@ def delete_any_task(task_id):
        
        
     with open("fake_db.json","w")as file:
-        json.dump(data,file)
+        json.dump(data,file,indent=4)
     return result
 def show_any_task(task_id):
     data=show_all_tasks()
@@ -41,12 +45,22 @@ def show_any_task(task_id):
         
         if list((i).keys())[0]==str(task_id):
             result= i
-        else:
-            result= {"failed":"task not found"}
+            return result
+        
+    result= {"failed":"task not found"}
     return result
 
-print(show_any_task(0))
-# dic=show_task()[0]
-# print(dic)
-# value=list(dic.keys())
-# print((value)[0])
+def filter_tasks(priority):
+    
+        data=show_all_tasks()
+        l=[]
+        for i in data:
+            print()
+            if list(i.values())[0]["priority"]==str(priority):
+                l.append(i)
+
+        
+        return l
+
+
+

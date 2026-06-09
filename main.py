@@ -2,7 +2,7 @@ from fastapi import FastAPI,HTTPException
 from pydantic import BaseModel
 from typing import Optional
 import json
-from memory import add_any_task,show_all_tasks,delete_any_task,show_any_task
+from memory import add_any_task,show_all_tasks,delete_any_task,show_any_task,filter_tasks
 app=FastAPI()
 class Task(BaseModel):
     task:str
@@ -16,8 +16,12 @@ def list_any_task(task_id:int):
 
 
 @app.get("/task")
-def list_all_task():
-    return show_all_tasks()
+def list_all_task(priority:Optional[str]=None):
+    #
+    if priority:
+        return filter_tasks(priority)
+    else:
+        return show_all_tasks()
 
 @app.post("/task/{task_id}")
 def add_task(task:Task,task_id:int):
@@ -26,6 +30,7 @@ def add_task(task:Task,task_id:int):
 @app.delete("/task/{task_id}")
 def delete_task(task_id:int):
     return delete_any_task(task_id)
+
     
 
 
